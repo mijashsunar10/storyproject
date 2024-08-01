@@ -103,13 +103,19 @@ class ChapterController extends Controller
 public function index($storydetails_id)
     {
         $storydetails = Storydetails::findOrFail($storydetails_id);
-        $chapters = Chapter::where('storydetails_id', $storydetails_id)->get();
+        $chapters = Chapter::where('storydetails_id', $storydetails_id)->get(); //Chapter::indicate the chapter model
         return view('frontend.chapter.index', compact('storydetails', 'chapters'));
+        // -> Chapter represent chapter model.model represents a table in the database and provides an easy way to interact with that table.
+            // ->'storydetails_id' => name of the column of the chapters tabe .
+            // ->$storydetails_id is the variable the hold the value you want ro match.
+            // ->get():This method executes the query and retrieves the results from the database.
+
     }
 
     public function create($storydetails_id)
     {
-        return view('frontend.chapter.create', compact('storydetails_id'));
+        $storydetails = Storydetails::findOrFail($storydetails_id);
+        return view('frontend.chapter.create', compact('storydetails_id','storydetails'));
     }
 
     public function store(Request $request, $storydetails_id)
@@ -121,16 +127,19 @@ public function index($storydetails_id)
         ]);
 
         $chapter = new Chapter();
+       
         $chapter->storydetails_id = $storydetails_id;
         $chapter->title = $request->title;
         $chapter->content = $request->content;
-
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('chapters'), $imageName);
+            $image->move(public_path('chapter'), $imageName);
             $chapter->image = $imageName;
         }
+      
+        // $chapter->image = $im    ageName;
+        
 
         $chapter->save();
         return redirect()->route('chapters.index', $storydetails_id);
@@ -151,7 +160,7 @@ public function index($storydetails_id)
     public function edit($id)
     {
         $chapter = Chapter::findOrFail($id);
-        return view('frontend.chapter.edit', compact('chapter'));
+        return view('frontend.chapter.useredit', compact('chapter'));
     }
 
     public function update(Request $request, $id)

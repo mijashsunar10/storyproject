@@ -14,7 +14,7 @@ class Chapter extends Model
         'storydetails_id', 
         'title', 
         'content',
-         'image'
+         'image',
     ];
 
     public function storydetails()

@@ -65,7 +65,14 @@ Route::get('storydetails/{storydetails_id}/chapters/create', [ChapterController:
 Route::post('storydetails/{storydetails_id}/chapters', [ChapterController::class, 'store'])->middleware(['auth', 'verified'])->name('chapters.store');
 
 Route::get('storydetails/{storydetails_id}/chapters', [ChapterController::class, 'index'])->name('chapters.index');
+// Route::get('storydetails/{storydetails_id}/chapters/{id}/edit', [ChapterController::class, 'edit'])->name('chapters.edit');
+// Route::get('storydetails/{storydetails_id}/chapters/{id}', [ChapterController::class, 'destroy'])->name('chapters.delete');
 Route::get('chapters/{id}', [ChapterController::class, 'show'])->name('chapters.show');
+
+Route::get('/chapters/{id}/edit', [ChapterController::class, 'edit'])->name('chapters.edit');
+Route::put('/chapters/{id}', [ChapterController::class, 'update'])->name('chapters.update');
+Route::delete('/chapters/{id}', [ChapterController::class, 'destroy'])->name('chapters.destroy');
+
 
 
 
@@ -73,10 +80,10 @@ Route::get('chapters/{id}', [ChapterController::class, 'show'])->name('chapters.
 
 Route::get('new',[StoryController::class,'new']);
 
-// Route::get('/new',function()
-// {
-//     return view('frontend.new');
-// });
+Route::get('/tableofContent',function()
+{
+    return view('frontend.tableofContent');
+});
 
 // Route::resource('storydetails',StroyDetailsController::class)->middleware(['auth', 'verified']);
 
