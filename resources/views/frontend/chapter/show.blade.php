@@ -168,7 +168,7 @@
                     <h3 class="card-title">{{ $chapter->title }}</h3>
                     <p class="card-text">{{ $chapter->content }}</p>
                     @if($chapter->image)
-                        <img src="{{ asset('chapters/' . $chapter->image) }}" class="card-img-top" alt="Chapter Image">
+                        <img src="{{ asset('chapter/' . $chapter->image) }}" class="card-img-top" alt="Chapter Image">
                     @endif
                     <div class="nav-buttons mt-4">
                         @if($previousChapter)

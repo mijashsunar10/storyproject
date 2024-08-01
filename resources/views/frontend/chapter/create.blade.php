@@ -321,9 +321,9 @@
                                 <textarea name="content" cols="100" rows="20" class="texta2 fs-5 border-0" placeholder="Please start your story here...."></textarea>
                             </div>
                         </div>
-                        <div class="button-container">
-                            <button class="btn btn-dark btn-medium" type="submit">Submit</button>
-                        </div>
+                         <div class="button-container">
+                        <button class="btn btn-dark btn-medium" type="submit">Submit</button>
+                    </div>
                     </div>
                    
                 </div>

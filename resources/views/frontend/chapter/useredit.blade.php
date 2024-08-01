@@ -117,7 +117,11 @@
                     </style>
                 </head>
 
+
+
                 <body class="bg-dark bg-gradient">
+
+                    {{-- dd($chapter); --}}
                     <form action="{{route('chapters.update', $chapter->id) }}" method="POST" class="row" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
@@ -142,7 +146,9 @@
                                         {{-- <a href="{{route('storydetails.show', $storydetails_id)}}"  class="btn btn-outline-secondary btn-long">
                                             Cancel
                                         </a> --}}
-                                        <button class="btn btn-outline-secondary btn-long" type="reset">Reset</button>
+                                        <a href="{{route('chapters.update', $chapter->id)}}">
+                                        <button class="btn btn-outline-secondary btn-long" >Cancel</button>
+                                        </a>
                                         {{-- <button class="btn btn-dark btn-long" type="submit">Submit</button> --}}
                                     </div>
                                 </div>
@@ -160,29 +166,16 @@
                                                             <div class="card" style="width: 13rem; height: 13rem; position: relative; background-color: #f2f2f2; border: 1px solid #ddd; border-radius: 5px;">
                                                                 <div class="card-body d-flex flex-column justify-content-center align-items-center text-center" onclick="triggerFileInput();">
                                                                     <!-- Image preview -->
-                                                                    <img id="coverImagePreview" name="image" src="{{ asset('chapters/' . $chapter->image) }}" alt="Selected Image" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;" />
+                                                                    <img id="coverImagePreview"  src="{{asset('chapter/' . $chapter->image)}}" alt="Selected Image" style="display:{{ asset('chapter/' . $chapter->image) ? 'block' : 'none' }}; width: 100%;width: 100%; height: 100%; object-fit: cover; cursor: pointer;" />
                                                                     
                                                                     <!-- File input -->
-                                                                    <input type="file" class="form-control-file position-absolute" id="coverImage" style="width: 100%; height: 100%; opacity: 0; top: 0; left: 0; cursor: pointer;" onchange="previewImage(event);">
+                                                                    <input type="file" name="image" class="form-control-file position-absolute" id="coverImage" style="width: 100%; height: 100%; opacity: 0; top: 0; left: 0; cursor: pointer;" onchange="previewImage(event);">
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     
-                                                    <script>
-                                                    function triggerFileInput() {
-                                                        document.getElementById('coverImage').click();
-                                                    }
-                                                    
-                                                    function previewImage(event) {
-                                                        var reader = new FileReader();
-                                                        reader.onload = function() {
-                                                            var output = document.getElementById('coverImagePreview');
-                                                            output.src = reader.result;
-                                                        };
-                                                        reader.readAsDataURL(event.target.files[0]);
-                                                    }
-                                                    </script>
+                                                   
                                                     <hr>
                                                 </div>
                                             </div>
@@ -233,6 +226,23 @@
                             </div>
                         </div>
                     </footer>
+
+                    <script>
+                        function triggerFileInput() {
+                            document.getElementById('coverImage').click();
+                        }
+                        
+                        function previewImage(event) {
+                            var reader = new FileReader();
+                            reader.onload = function() {
+                                var output = document.getElementById('coverImagePreview');
+                                output.src = reader.result;
+                            };
+                            reader.readAsDataURL(event.target.files[0]);
+                        }
+
+                      
+                        </script>
 
                     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
                 </body>

@@ -336,9 +336,11 @@
                                     <a href="{{route('chapters.edit',$chapter->id)}}">
                                     <button class="btn btn-primary btn-sm">Edit</button>
                                     </a>
-                                    <a href="">
-                                    <button class="btn btn-danger btn-sm">Delete</button>
-                                </a>
+                                    <form action="{{ route('chapters.destroy', $chapter->id) }}" method="POST" class="d-inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                    </form>
                                 </div>
                                 <div class="options fs-5" onclick="toggleOptions(this)"><i class="fa-solid fa-list"></i></div>
                             </div>
