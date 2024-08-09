@@ -113,6 +113,11 @@ Route::get('/categories/{id}', [CategoryController::class, 'show'])->name('categ
 Route::get('/stories/{id}', [CategoryController::class, 'story'])->name('categories.story');
 Route::get('/stories/{story_id}/chapters/{chapter_id}', [CategoryController::class, 'chapter'])->name('categories.chapter');
 
+Route::get('/storywriting',function()
+{
+    return view('frontend.storywriting');
+});
+
 
 
 

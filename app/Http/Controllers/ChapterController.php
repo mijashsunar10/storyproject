@@ -145,25 +145,53 @@ public function index($storydetails_id)
         return redirect()->route('chapters.index', $storydetails_id);
     }
 
-    public function show($id)
-    {
-        $chapter = Chapter::findOrFail($id);//used to retrieve the chapter with the given ID.
-        $storydetails = $chapter->storydetails;//we use the relationship defined in the Chapter model to get the story that this chapter belongs to 
-        $allChapters = $storydetails->chapters;//This line gets all chapters related to the retrieved story. The chapters is assumed to be a method in the StoryDetails model that defines a relationship (likely a hasMany relationship).
+    // public function show($id)
+    // {
+    //     $chapter = Chapter::findOrFail($id);//used to retrieve the chapter with the given ID.
+    //     $storydetails = $chapter->storydetails;//we use the relationship defined in the Chapter model to get the story that this chapter belongs to 
+    //     $allChapters = $storydetails->chapters;//This line gets all chapters related to the retrieved story. The chapters is assumed to be a method in the StoryDetails model that defines a relationship (likely a hasMany relationship).
 
-        $previousChapter = $storydetails->chapters()->where('id', '<', $chapter->id)->orderBy('id', 'desc')->first();// retrieves the chapter with the highest ID that is less than the current chapter's ID. 
-        /*$storydetails->chapters()=This retrieves the chapters related to the storydetails all chapters of the storydetails
-        $chapter->id is the ID of the current chapter, so this condition filters out all chapters whose IDs are less than the current chapter's ID.
-        orderBy('id', 'desc')=This orders the filtered chapters in descending order by their ID.
-        first();->result are in descending order chapter with highest id but still less than the current chapterid
-                */
-                $nextChapter = $storydetails->chapters()->where('id', '>', $chapter->id)->orderBy('id', 'asc')->first();
-                /*   $storydetails->chapters():Accesses the chapters relationship of the StoryDetails model 
-                   where('id', '>', $chapter->id)= Adds a filter to the query to include only chapters with an ID greater than the current chapter's ID.
-                   orderBy('id', 'asc'):rders the resulting chapters by ID in ascending order, so the chapter with the lowest ID that meets the where condition will be at the top.*/
+    //     $previousChapter = $storydetails->chapters()->where('id', '<', $chapter->id)->orderBy('id', 'desc')->first();// retrieves the chapter with the highest ID that is less than the current chapter's ID. 
+    //     /*$storydetails->chapters()=This retrieves the chapters related to the storydetails all chapters of the storydetails
+    //     $chapter->id is the ID of the current chapter, so this condition filters out all chapters whose IDs are less than the current chapter's ID.
+    //     orderBy('id', 'desc')=This orders the filtered chapters in descending order by their ID.
+    //     first();->result are in descending order chapter with highest id but still less than the current chapterid
+    //             */
+    //             $nextChapter = $storydetails->chapters()->where('id', '>', $chapter->id)->orderBy('id', 'asc')->first();
+    //             /*   $storydetails->chapters():Accesses the chapters relationship of the StoryDetails model 
+    //                where('id', '>', $chapter->id)= Adds a filter to the query to include only chapters with an ID greater than the current chapter's ID.
+    //                orderBy('id', 'asc'):rders the resulting chapters by ID in ascending order, so the chapter with the lowest ID that meets the where condition will be at the top.*/
 
-        return view('frontend.chapter.show', compact('chapter', 'previousChapter', 'nextChapter', 'allChapters'));
+    //     return view('frontend.chapter.show', compact('chapter', 'previousChapter', 'nextChapter', 'allChapters'));
+    // }
+
+    // ChapterController.php
+
+public function show($id)
+{
+    $chapter = Chapter::with('storydetails.category')->findOrFail($id); //Fetch the chapter along with sotrydetails using Eloquent"s oRM
+    $storydetails = $chapter->storydetails; //we use the relationship in the chpater model to get the storrythis chapter belongs to
+    $category = $storydetails->category;
+
+    $previousChapter = Chapter::where('storydetails_id', $storydetails->id)->where('id', '<', $chapter->id)->orderBy('id', 'desc')->first();
+    //Chapter::where('storydetails_id', $storydetails->id):Filter to only include chapters from the same story (storydetails_id).. The storydetails_id is the foreign key in the chapters table that links it to the storydetails table.
+    //where('id', '<', $chapter->id):we are looking for chapters that come before the current chapter in the sequence.
+    //->orderBy('id', 'desc'):This sorts the results in descending order based on the id.
+    //This retrieves the first result from the sorted list.
+    $nextChapter = Chapter::where('storydetails_id', $storydetails->id)->where('id', '>', $chapter->id)->orderBy('id')->first();
+    $allChapters = Chapter::where('storydetails_id', $storydetails->id)->get();
+
+    foreach ($allChapters as $index => $chap) {
+        $chap->sequence_number = $index + 1;
     }
+
+    $currentChapterIndex = $allChapters->search(function ($chap) use ($chapter) {
+        return $chap->id == $chapter->id;
+    });
+    // Add sequence numbers to the chapters
+
+    return view('frontend.chapter.show', compact('chapter', 'storydetails', 'previousChapter', 'nextChapter', 'allChapters','category','currentChapterIndex'));
+}
 
     public function edit($id)
     {

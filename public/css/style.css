@@ -1453,6 +1453,13 @@ ol {
 	text-transform: uppercase;
 	margin-bottom: 30px;
 }
+.blog__details__title h4 {
+	/* font-size: 15px; */
+	color: #ffffff;
+	font-weight: 700;
+	text-transform: uppercase;
+	margin-bottom: 30px;
+}
 
 .blog__details__title h6 span {
 	color: #b7b7b7;
@@ -1577,10 +1584,19 @@ ol {
 
 .blog__details__btns__item.next__btn {
 	text-align: right;
+	
+}
+.blog__details__btns__item.next__btn a {
+font-size: 23px;
+	font-weight: bold;
+	letter-spacing: 2px;
+	color: #ffffff;
+	
 }
 
+
 .blog__details__btns__item h5 a {
-	font-size: px;
+	font-size: 23px;
 	font-weight: bold;
 	letter-spacing: 2px;
 	color: #ffffff;

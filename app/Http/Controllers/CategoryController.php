@@ -15,7 +15,7 @@ class CategoryController extends Controller
 
         // CategoryController.php
  $categories = Category::with(['stories' => function ($query) {
-        $query->take(3); // Adjust the number of stories to show per category
+        $query->take(4); // Adjust the number of stories to show per category
     }])->get();
 
     return view('categories.index', compact('categories'));

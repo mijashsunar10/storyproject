@@ -41,7 +41,7 @@
                             <li><a href="{{url('fourlayer')}}">Read</a></li>
                             {{-- <li><a href="{{route('storydetails.create')}}">Write</a></li> --}}
                             <li><a href="{{route('storydetails_create')}}">Write</a></li>
-                            {{-- <a href="{{ route('categories.index') }}" class="btn btn-secondary btn-category">View Categories</a> --}}
+                           <li> <a href="{{ route('categories.index') }}">View Categories</a> </li>
                         </ul>
                     </nav>
                 </div>
